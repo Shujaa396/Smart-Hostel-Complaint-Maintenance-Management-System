@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+<div class="row gy-4">
+  <div class="col-lg-3">
+    <div class="card sidebar-card admin-sidebar border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Admin Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/admin/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/manage-complaints">Manage Complaints</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/manage-workers">Manage Workers</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="card page-card border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-4">Assign Worker</h3>
+        <div class="mb-4 p-4 rounded-3 bg-secondary bg-opacity-10">
+          <h5 class="mb-2"><%= complaint.title %></h5>
+          <p class="mb-1"><strong>Category:</strong> <%= complaint.category %></p>
+          <p class="mb-1"><strong>Room:</strong> <%= complaint.room_number %></p>
+          <p class="mb-0"><strong>Status:</strong> <span class="badge bg-info text-dark"><%= complaint.status %></span></p>
+        </div>
+        <form action="/admin/assign-worker" method="POST">
+          <input type="hidden" name="complaint_id" value="<%= complaint.id %>" />
+          <div class="mb-3">
+            <label class="form-label">Select Worker</label>
+            <select class="form-select" name="worker_id" required>
+              <option value="">Choose...</option>
+              <% workers.forEach((worker) => { %>
+                <option value="<%= worker.id %>"><%= worker.name %> - <%= worker.department %></option>
+              <% }) %>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit">Assign Worker</button>
+          <a class="btn btn-outline-primary ms-2" href="/admin/manage-complaints">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+

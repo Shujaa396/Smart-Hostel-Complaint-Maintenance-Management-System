@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+<div class="row gy-4">
+  <div class="col-lg-3">
+    <div class="card sidebar-card admin-sidebar border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Worker Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/worker/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/worker/assigned-complaints">Assigned Complaints</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <div class="card page-card border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-4">Assigned Complaints</h3>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Complaint</th>
+                <th>Student</th>
+                <th>Status</th>
+                <th>Assigned At</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (assignments.length) { %>
+                <% assignments.forEach((item) => { %>
+                  <tr>
+                    <td><%= item.title %></td>
+                    <td><%= item.student_name %></td>
+                    <td><span class="badge <%= item.status === 'Completed' ? 'bg-success' : item.status === 'In Progress' ? 'bg-warning text-dark' : item.status === 'Assigned' ? 'bg-info text-dark' : 'bg-secondary' %>"><%= item.status %></span></td>
+                    <td><%= new Date(item.assigned_at).toLocaleDateString() %></td>
+                    <td>
+                      <form action="/worker/update-status" method="POST" class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="assignment_id" value="<%= item.assignment_id %>" />
+                        <select name="status" class="form-select form-select-sm">
+                          <option value="Assigned" <%= item.status === 'Assigned' ? 'selected' : '' %>>Assigned</option>
+                          <option value="In Progress" <%= item.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                          <option value="Completed" <%= item.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                        </select>
+                        <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr><td colspan="5" class="text-muted">No assigned complaints available.</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+

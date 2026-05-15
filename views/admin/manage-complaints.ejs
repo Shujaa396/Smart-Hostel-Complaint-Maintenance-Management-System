@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+<div class="row gy-4">
+  <div class="col-lg-3">
+    <div class="card sidebar-card admin-sidebar border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Admin Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/admin/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/manage-complaints">Manage Complaints</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/manage-workers">Manage Workers</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3>Manage Complaints</h3>
+        <p class="text-muted">Search, filter, assign and update complaint status.</p>
+      </div>
+    </div>
+
+    <div class="card page-card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <form class="row g-3" method="GET" action="/admin/manage-complaints">
+          <div class="col-md-5">
+            <input class="form-control" name="search" placeholder="Search complaints" value="<%= search %>" />
+          </div>
+          <div class="col-md-4">
+            <select class="form-select" name="status">
+              <% statuses.forEach((item) => { %>
+                <option <%= status === item ? 'selected' : '' %> value="<%= item %>"><%= item %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-md-3 d-grid">
+            <button class="btn btn-primary" type="submit">Filter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card page-card border-0 shadow-sm">
+      <div class="card-body table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Assigned</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (complaints.length) { %>
+              <% complaints.forEach((complaint) => { %>
+                <tr>
+                  <td><%= complaint.student_name || 'N/A' %></td>
+                  <td><%= complaint.title %></td>
+                  <td><%= complaint.category %></td>
+                  <td><span class="badge <%= complaint.status === 'Completed' ? 'bg-success' : complaint.status === 'In Progress' ? 'bg-warning text-dark' : complaint.status === 'Assigned' ? 'bg-info text-dark' : 'bg-secondary' %>"><%= complaint.status %></span></td>
+                  <td><%= complaint.worker_user_id ? 'Yes' : 'No' %></td>
+                  <td class="d-flex gap-2 flex-wrap">
+                    <a class="btn btn-sm btn-outline-primary" href="/admin/assign-workers/<%= complaint.id %>">Assign</a>
+                    <form class="d-inline" action="/admin/update-status/<%= complaint.id %>" method="POST">
+                      <select class="form-select form-select-sm" name="status">
+                        <option value="Pending" <%= complaint.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="Assigned" <%= complaint.status === 'Assigned' ? 'selected' : '' %>>Assigned</option>
+                        <option value="In Progress" <%= complaint.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                        <option value="Completed" <%= complaint.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                      </select>
+                      <button class="btn btn-sm btn-outline-success ms-1" type="submit">Update</button>
+                    </form>
+                    <form class="d-inline" action="/admin/delete-complaint/<%= complaint.id %>" method="POST" onsubmit="return confirm('Delete complaint?');">
+                      <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="6" class="text-muted">No complaints match the current criteria.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+

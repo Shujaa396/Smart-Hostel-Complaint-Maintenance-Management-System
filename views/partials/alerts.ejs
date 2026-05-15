@@ -1,0 +1,21 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
+<% if (success_msg && success_msg.length) { %>
+  <div class="alert alert-success alert-dismissible fade show rounded shadow-sm" role="alert">
+    <%= success_msg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+<% if (error_msg && error_msg.length) { %>
+  <div class="alert alert-danger alert-dismissible fade show rounded shadow-sm" role="alert">
+    <%= error_msg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+<% if (errors && errors.length) { %>
+  <% errors.forEach((error) => { %>
+    <div class="alert alert-warning alert-dismissible fade show rounded shadow-sm" role="alert">
+      <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% }); %>
+<% } %>

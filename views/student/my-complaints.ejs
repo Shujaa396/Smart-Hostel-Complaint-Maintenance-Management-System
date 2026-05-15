@@ -1,0 +1,83 @@
+<%- include('../partials/header') %>
+<div class="row gy-4">
+  <div class="col-lg-3">
+    <div class="card sidebar-card admin-sidebar border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Student Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/student/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/student/create-complaint">Create Complaint</a></li>
+          <li class="nav-item"><a class="nav-link" href="/student/my-complaints">My Complaints</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3>My Complaints</h3>
+        <p class="text-muted">Search and filter your submitted issues.</p>
+      </div>
+      <a class="btn btn-outline-primary" href="/student/create-complaint">New Complaint</a>
+    </div>
+
+    <div class="card page-card border-0 shadow-sm">
+      <div class="card-body">
+        <form class="row g-3 mb-4" method="GET" action="/student/my-complaints">
+          <div class="col-md-6">
+            <input class="form-control" name="search" placeholder="Search complaints" value="<%= search %>" />
+          </div>
+          <div class="col-md-4">
+            <select class="form-select" name="status">
+              <% statuses.forEach((item) => { %>
+                <option <%= status === item ? 'selected' : '' %> value="<%= item %>"><%= item %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
+        </form>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (complaints.length) { %>
+                <% complaints.forEach((complaint) => { %>
+                  <tr>
+                    <td><%= complaint.title %></td>
+                    <td><%= complaint.category %></td>
+                    <td><span class="badge <%= complaint.status === 'Completed' ? 'bg-success' : complaint.status === 'In Progress' ? 'bg-warning text-dark' : complaint.status === 'Assigned' ? 'bg-info text-dark' : 'bg-secondary' %>"><%= complaint.status %></span></td>
+                    <td><span class="badge bg-dark"><%= complaint.priority %></span></td>
+                    <td><%= new Date(complaint.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <a class="btn btn-sm btn-outline-primary" href="/student/edit-complaint/<%= complaint.id %>">Edit</a>
+                      <form class="d-inline" action="/student/delete-complaint/<%= complaint.id %>" method="POST" onsubmit="return confirm('Delete this complaint?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr><td colspan="6" class="text-muted">No complaints found. Create a new complaint to get started.</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+

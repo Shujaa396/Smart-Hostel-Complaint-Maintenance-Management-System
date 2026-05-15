@@ -1,0 +1,64 @@
+:root {
+    --primary-navy: #1e293b;
+    --secondary-slate: #64748b;
+    --accent-blue: #3b82f6;
+    --bg-slate: #f8fafc;
+    --text-navy: #0f172a;
+    --card-white: #ffffff;
+}
+
+body {
+    background-color: var(--bg-slate);
+    color: var(--text-navy);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.011em;
+}
+
+.card {
+    border-radius: 1.25rem;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+.bg-primary {
+    background-color: var(--primary-navy) !important;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    border: none;
+    padding: 0.625rem 1.5rem;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+.form-control, .form-select {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+}
+
+.admin-menu-link {
+    padding: 0.875rem 1.25rem;
+    border-radius: 0.75rem;
+    color: var(--secondary-slate);
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-menu-link:hover, .admin-menu-link.active {
+    background: #eff6ff;
+    color: var(--accent-blue);
+}
+
+.table thead th {
+    background-color: #f1f5f9;
+    color: var(--secondary-slate);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+}

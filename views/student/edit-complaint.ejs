@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+<div class="row gy-4">
+  <div class="col-lg-3">
+    <div class="card sidebar-card admin-sidebar border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Student Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/student/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/student/create-complaint">Create Complaint</a></li>
+          <li class="nav-item"><a class="nav-link" href="/student/my-complaints">My Complaints</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <div class="card page-card border-0 shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-4">Edit Complaint</h3>
+        <form action="/student/update-complaint/<%= complaint.id %>" method="POST">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Title</label>
+              <input type="text" name="title" value="<%= complaint.title %>" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <select name="category" class="form-select" required>
+                <% categories.forEach((category) => { %>
+                  <option value="<%= category %>" <%= complaint.category === category ? 'selected' : '' %>><%= category %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Room Number</label>
+              <input type="text" name="room_number" value="<%= complaint.room_number %>" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Priority</label>
+              <select name="priority" class="form-select" required>
+                <% priorities.forEach((priority) => { %>
+                  <option value="<%= priority %>" <%= complaint.priority === priority ? 'selected' : '' %>><%= priority %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea name="description" rows="5" class="form-control" required><%= complaint.description %></textarea>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Update Complaint</button>
+            <a href="/student/my-complaints" class="btn btn-outline-primary ms-2">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+
