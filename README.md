@@ -126,3 +126,7 @@ http://localhost:3000
 - Use the admin dashboard to add more workers and assign them to complaints.
 - Students can create complaints and track status changes.
 - Workers can view and update assigned complaints.
+
+- ## License
+
+This project is Created by Syed Shujaa Hussain.
